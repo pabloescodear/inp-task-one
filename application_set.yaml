@@ -27,8 +27,7 @@ spec:
         helm:
           valueFiles:
           - '$values/{{.cluster}}/values.yaml'
-      - path: this
-        repoURL: https://github.com/pabloescodear/inp-task-one.git
+      - repoURL: https://github.com/pabloescodear/inp-task-one.git
         targetRevision: main
         ref: values
       destination:
