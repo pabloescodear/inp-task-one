@@ -1,0 +1,36 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: app-one
+spec:
+  goTemplate: true
+  goTemplateOptions: ["missingkey=error"]
+  generators:
+  - list:
+      elements:
+      - cluster: dev-global-cluster-0
+        url: https://kubernetes.default.svc # set to in-cluster for testing
+      - cluster: prd-global-cluster-5
+        url: https://kubernetes.default.svc
+  template:
+    metadata:
+      name: '{{.cluster}}-app-one'
+    spec:
+      project: default
+      syncPolicy:
+        syncOptions:
+          - CreateNamespace=true
+      sources:
+      - path: app-one
+        repoURL: https://github.com/pabloescodear/inp-app-one.git
+        targetRevision: main
+        helm:
+          valueFiles:
+          - '$values/{{.cluster}}/values.yaml'
+      - path: this
+        repoURL: https://github.com/pabloescodear/inp-task-one.git
+        targetRevision: main
+        ref: values
+      destination:
+        server: '{{.url}}'
+        namespace: app-one-{{.cluster}}

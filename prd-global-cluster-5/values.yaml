@@ -1,0 +1,4 @@
+stage: prod
+setting_a: setting_a_on_prod
+setting_b: setting_b_on_prod
+replicas: 5

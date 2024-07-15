@@ -1,0 +1,4 @@
+stage: dev
+setting_a: setting_a_on_dev
+setting_b: setting_b_on_dev
+replicas: 3
